@@ -13,11 +13,14 @@
         m.albumRowList = m.top.findNode("albumRowList")
         m.ArtistAlbums = m.top.findNode("ArtistAlbums")
         m.fullAlbum = m.top.findNode("fullAlbum")
-
+        m.VideoRowList = m.top.findNode("VideoRowList")
+        m.VideoDetailsContainer = m.top.findNode("VideoDetailsContainer")
+        
         m.NavLabelList.setFocus(true)
         m.NavLabelList.observeField("itemSelected","onKeyEvent")
 
         m.albumRowList.observeField("rowItemSelected","onCategoryItemSelected")
+        m.VideoRowList.observeField("rowItemSelected","onVideoItemSelected")
 
     end function
 
@@ -26,6 +29,13 @@
         m.albumRowList.visible = false
         m.fullAlbum.visible = true
         m.fullAlbum.setFocus(true)
+    end sub
+
+    sub onVideoItemSelected()
+        print "onVideoItemSelected"
+        m.VideoRowList.visible = false
+        m.VideoDetailsContainer.visible = true
+        m.VideoDetailsContainer.setFocus(true)
     end sub
 
     function onKeyEvent(key as String, press as Boolean) as Boolean  
@@ -49,7 +59,21 @@
                                 m.albumRowList.visible = "true"
                                 m.albumRowList.setFocus(true)
                                 return true  
-                            
+
+                            else if m.VideoRowList.visible
+                                print "you are in album row list"
+                                m.VideoRowList.visible = "false"
+                                m.NavLabelList.visible = "true"
+                                m.NavLabelList.setFocus(true)
+                                return true
+
+                            else if m.VideoDetailsContainer.visible
+                                print "you are in album row list"
+                                m.VideoDetailsContainer.visible = "false"
+                                m.VideoRowList.visible = "true"
+                                m.VideoRowList.setFocus(true)
+                                return true
+
                             else
                             return false
                 end if
@@ -61,24 +85,32 @@
                     ''''''' if m.NavLabelList.visible ''''''''
                     
                     if m.NavLabelList.visible
-                            print "you are in album row list"
-                            m.NavLabelList.visible = "false"
-                            m.albumRowList.visible = "true"
-                            m.albumRowList.setFocus(true)
-                            return true
-end if
+                            if m.NavLabelList.itemSelected = 1
+                                print "you are in album row list"
+                                m.NavLabelList.visible = "false"
+                                m.albumRowList.visible = "true"
+                                m.albumRowList.setFocus(true)
+                                return true
+                            end if
+                            if m.NavLabelList.itemSelected = 0
+                                print "you are in video container"
+                                m.NavLabelList.visible = "false"
+                                m.VideoRowList.visible = "true"
+                                m.VideoRowList.setFocus(true)
+                                return true
+                            end if
+                    end if
                     if m.albumRowList.visible
                             print "you are in full album"
                             m.albumRowList.visible = "false"
                             m.fullAlbum.visible = "true"
                             m.fullAlbum.setFocus(true)
                             return true
-end if
-                end if
-
+                    end if
+            end if
                 else 
                 return false
-            end if 
+        end if 
             
         end function
 ]]>
@@ -112,5 +144,18 @@ end if
     focusable="true"
     visible="false"
 />
+
+<VideoRowList 
+    id="VideoRowList"
+    focusable="true"
+    visible="false"
+    translation = "[700,300]"
+/>
+<VideoDetailsContainer 
+    id="VideoDetailsContainer"
+    focusable="true"
+    visible="false"
+/>
+
     </children>
 </component>

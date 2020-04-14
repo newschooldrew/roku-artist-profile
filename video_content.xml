@@ -1,0 +1,7 @@
+<Content>
+<ContentNode id="rowOneListContent">
+<item title="Album 1" HDGRIDPOSTERURL="https://gumgum-content.s3.amazonaws.com/ads/com/drew_test/misc/pulp_fiction.jpg"/>
+<item title="Album 2" HDGRIDPOSTERURL="https://gumgum-content.s3.amazonaws.com/ads/com/drew_test/misc/jaws.jpg"/>
+<item title="Album 3" HDGRIDPOSTERURL="https://gumgum-content.s3.amazonaws.com/ads/com/drew_test/misc/young_frank.jpg"/>
+</ContentNode>
+</Content>
