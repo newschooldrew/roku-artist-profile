@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="RowListItem" extends="Group">
+
+<interface>
+  <field id="itemContent" type="node" onChange="itemContentChanged"/>
+</interface>
+<script type="text/brightscript">
+<![CDATA[
+    function init()
+        m.albumPoster = m.top.findNode("albumPoster")
+        m.albumName = m.top.findNode("albumName")
+    end function
+
+    function itemContentChanged() as void
+        itemData = m.top.itemContent
+        m.albumPoster.uri = itemData.posterUrl
+        m.albumName.text = itemData.labelText
+    end function
+]]>
+</script>
+    <children>
+        <LayoutGroup id="myLabel">
+            <Poster id ="albumPoster" height="225" width="175"/>
+            <Label id="albumName" height="50" width="165"/>
+        </LayoutGroup>
+    </children>
+</component>

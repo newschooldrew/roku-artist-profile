@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="albumRowList" extends="RowList">
+
+<interface> 
+  <field id="itemContent" type="node" onChange="readFocus"/> 
+  <field id="rowFocusPercent" type="float" onChange="changeFont"/>
+  
+</interface>
+
+<script type="text/brightscript">
+<![CDATA[
+    function init()
+        m.albumRowList = m.top.findNode("albumRowList")
+        m.fullAlbum = m.top.findNode("fullAlbum")
+        m.fullAlbumTwo = m.top.findNode("fullAlbumTwo")
+        m.top.itemComponentName = "RowListItem"
+        m.top.numRows = 2
+	    m.top.itemSize = [296 * 3 + 20 * 2, 355]
+	    m.top.rowHeights = [400]
+	    m.top.rowItemSize = [ [396,313], [396,313], [396,313] ]
+	    m.top.itemSpacing = [ 40, 0 ]
+	    m.top.rowItemSpacing = [ [20, 0] ]
+		m.top.rowLabelOffset = [ [0, 30] ]
+	    m.top.rowFocusAnimationStyle = "floatingFocus"
+
+        m.albumsReader = createObject("roSGNode", "AttrReader")
+        m.albumsReader.observeField("content","GetRowListContent")
+        m.albumsReader.contenturi = "http://www.drewperez.com/albumsCovers.xml"
+        m.albumsReader.control = "RUN"
+    end function
+
+        function GetRowListContent() as object
+                    m.content = m.albumsReader.content
+                    m.rowOneListContent = m.content.getChild(0)
+                myNode = CreateObject("roSGNode", "ContentNode")
+                    lilNodeOne = myNode.CreateChild("ContentNode")
+                        for i = 0 to m.rowOneListContent.getChildCount() - 1
+                            data = m.rowOneListContent.getChild(i)
+                                print "data is " data
+                            item = lilNodeOne.CreateChild("RowListItemData")
+                            item.posterUrl = data.HDGRIDPOSTERURL
+                            item.labelText = data.title
+                        end for	    		
+                m.top.content = myNode
+        end function
+
+]]>
+</script>
+<children>
+
+<!-- <fullAlbum 
+    id="fullAlbum"
+    focusable="true"
+    visible="true"
+/>
+<fullAlbum 
+    id="fullAlbumTwo"
+    focusable="true"
+    visible="true"
+    translation="[350,0]"
+/> -->
+</children>
+</component>

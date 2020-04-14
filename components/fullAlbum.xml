@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="fullAlbum" extends="Group" initialFocus="myLayoutGroup">
+
+<interface> 
+    <field id="list" type="node"/>
+    <field id="index" type="integer" onChange="showtrackList"/>
+</interface>     
+<script type="text/brightscript">
+<![CDATA[
+        sub init()
+                m.albumPoster = m.top.findNode("albumPoster")
+                m.ArtistAlbums = m.top.findNode("ArtistAlbums")
+                m.albumContent = m.top.findNode("albumContent")
+                m.ArtistAlbums.observeField("itemSelected","onKeyEvent")
+                print "m.ArtistAlbums.hasFocus = " m.ArtistAlbums.hasFocus()
+                m.myLayoutGroup = m.top.FindNode("myLayoutGroup")
+        end sub
+
+        function onKeyEvent(key as String, press as Boolean) as Boolean  
+            handled = false
+            
+            if press then
+                print "m.ArtistAlbums.itemFocused" m.ArtistAlbums.itemFocused
+                if m.myLayoutGroup.visible
+                    m.ArtistAlbums.setFocus(true)
+                end if
+            end if
+            return false
+        end function
+]]>
+</script>
+    <children> 
+        <LayoutGroup id="myLayoutGroup" translation="[550,350]">
+            <Poster id ="albumPoster" uri="https://images.genius.com/4f9245893e01d4b380ba6b4559d2afbf.595x595x1.jpg" height="225" width="175"/>
+            <LabelList
+                id="ArtistAlbums"
+                itemSize = "[150,48]"
+                visible="true"
+            >
+                <ContentNode id = "albumContent" role = "content">
+                    <ContentNode title = "track01" />
+                    <ContentNode title = "track02" />
+                    <ContentNode title = "track03" />
+                    <ContentNode title = "track04" />
+                </ContentNode>
+            </LabelList>
+        </LayoutGroup>
+    </children>
+</component>

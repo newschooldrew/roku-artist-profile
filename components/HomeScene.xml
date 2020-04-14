@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="HomeScene" extends="Scene"  initialFocus="NavLabelList">
+
+<interface>
+    <field id="visible" type="boolean" onChange="showVisibility"/>
+</interface>
+
+<script type="text/brightscript" >
+<![CDATA[
+    function init()
+        m.tracker=m.top.createChild("TrackerTask")
+        m.NavLabelList = m.top.findNode("NavLabelList")
+        m.albumRowList = m.top.findNode("albumRowList")
+        m.ArtistAlbums = m.top.findNode("ArtistAlbums")
+        m.fullAlbum = m.top.findNode("fullAlbum")
+
+        m.NavLabelList.setFocus(true)
+        m.NavLabelList.observeField("itemSelected","onKeyEvent")
+
+        m.albumRowList.observeField("rowItemSelected","onCategoryItemSelected")
+
+    end function
+
+    sub onCategoryItemSelected()
+        print "onCategoryItemSelected"
+        m.albumRowList.visible = false
+        m.fullAlbum.visible = true
+        m.fullAlbum.setFocus(true)
+    end sub
+
+    function onKeyEvent(key as String, press as Boolean) as Boolean  
+        if press then
+
+            ''''''' if back is pushed ''''''''
+                if key = "back"
+
+                            if m.albumRowList.visible
+                                print "you are in nav list"
+                                m.fullAlbum.visible = "false"
+                                m.albumRowList.visible = "false"
+                                m.NavLabelList.visible = "true"
+                                m.NavLabelList.setFocus(true)
+                                return true
+
+                            else if m.fullAlbum.visible
+                                print "you are in album row list"
+                                m.fullAlbum.visible = "false"
+                                m.NavLabelList.visible = "false"
+                                m.albumRowList.visible = "true"
+                                m.albumRowList.setFocus(true)
+                                return true  
+                            
+                            else
+                            return false
+                end if
+                '''''END BACK''''''
+
+
+                    ''''''' OK is pressed ''''''''
+                else if key = "OK"
+                    ''''''' if m.NavLabelList.visible ''''''''
+                    
+                    if m.NavLabelList.visible
+                            print "you are in album row list"
+                            m.NavLabelList.visible = "false"
+                            m.albumRowList.visible = "true"
+                            m.albumRowList.setFocus(true)
+                            return true
+end if
+                    if m.albumRowList.visible
+                            print "you are in full album"
+                            m.albumRowList.visible = "false"
+                            m.fullAlbum.visible = "true"
+                            m.fullAlbum.setFocus(true)
+                            return true
+end if
+                end if
+
+                else 
+                return false
+            end if 
+            
+        end function
+]]>
+</script>
+    <children>
+
+        <LabelList
+            id="NavLabelList"
+            translation="[100,300]"
+            itemSize = "[440,48]"
+            focusable="true"
+            visible="true"
+        >
+          <ContentNode id = "Artist" role = "content" >
+              <ContentNode title = "Profiles" />
+              <ContentNode title = "Albums" />
+              <ContentNode title = "Tours" />
+              <ContentNode title = "Connect" />
+          </ContentNode>
+        </LabelList>
+
+      <albumRowList 
+        id="albumRowList"
+        visible = "false"
+        focusable = "true"
+        translation = "[700,300]"
+      />
+
+ <fullAlbum 
+    id="fullAlbum"
+    focusable="true"
+    visible="false"
+/>
+    </children>
+</component>
